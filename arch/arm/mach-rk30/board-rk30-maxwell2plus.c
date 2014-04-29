@@ -949,6 +949,32 @@ struct rk29_sdmmc_platform_data default_sdmmc1_data = {
  * the end of setting for SDMMC devices
 **************************************************************************************************/
 
+#ifdef CONFIG_BATTERY_RK30_ADC
+#define DC_DET_PIN	RK30_PIN6_PA5
+#define USB_DET_PIN	RK30_PIN6_PA5
+#define CHARGE_TYPE_PIN	RK30_PIN6_PB2
+
+static struct rk30_adc_battery_platform_data rk30_adc_battery_platdata = {
+        .dc_det_pin      = DC_DET_PIN,    //RK30_PIN6_PA5,
+        .batt_low_pin    = RK30_PIN6_PA0, //RK30_PIN6_PA0,
+        .charge_set_pin  = INVALID_GPIO,
+        .charge_ok_pin   = RK30_PIN6_PA6,
+        .dc_det_level    = GPIO_LOW,
+        .charge_ok_level = GPIO_HIGH,
+        .usb_det_pin     = USB_DET_PIN,
+        .usb_det_level   = GPIO_LOW,
+        .back_light_pin = BL_EN_PIN,
+};
+
+static struct platform_device rk30_device_adc_battery = {
+        .name   = "rk30-battery",
+        .id     = -1,
+        .dev	= {
+                .platform_data = &rk30_adc_battery_platdata,
+        },
+};
+#endif
+
 #if defined (CONFIG_BATTERY_BQ24196)
 #define	CHG_EN	RK30_PIN4_PD5
 
@@ -1077,6 +1103,7 @@ void charge_current_set(int on)
 	}
 }
 
+#ifdef CONFIG_BATTERY_RK30_ADC_FAC
 static struct rk30_adc_battery_platform_data rk30_adc_battery_platdata = {
 	.dc_det_pin      = DC_DET_PIN, // INVALID_GPIO,
 	.batt_low_pin    = INVALID_GPIO,
@@ -1099,6 +1126,7 @@ static struct rk30_adc_battery_platform_data rk30_adc_battery_platdata = {
 	.control_usb_charging = charge_current_set,
 #endif
 };
+#endif
 
 static struct platform_device rk30_device_adc_battery = {
         .name   = "rk30-battery",

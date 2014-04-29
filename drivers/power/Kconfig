@@ -428,6 +428,9 @@ choice
 config BATTERY_BT_C0B5H
         bool "BT-C0B5H 4300mA"
 
+config BATTERY_BT_B0BFN_3474107
+        bool "BT-BOBFN 3474107 4200mA"
+
 config BATTERY_BT_D1004_36722128
         bool "BT_D1004_36722128 4300mA"
 
@@ -437,5 +440,15 @@ config BATTERY_BT_B0B5G
 config BATTERY_BT_B0B6G
 	bool "BT_B0B6G 4500mA"
 endchoice
+
+config BATTERY_AOSBIS_CAPACITY99_CHECK
+	bool "Support battery as full state when capacity is 99% for one hour"
+config CHARGER_SMB347
+	tristate "Summit Microelectronics SMB347 Battery Charger"
+	depends on I2C
+	select REGMAP_I2C
+	help
+	  Say Y to include support for Summit Microelectronics SMB347
+	  Battery Charger.
 
 endif # POWER_SUPPLY
